@@ -106,12 +106,12 @@
     <!-- Page Header Start -->
     <div class="container-fluid page-header mb-5 py-5">
         <div class="container">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">Buat Laporan Pengaduan</h1>
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Kontak</h1>
         </div>
     </div>
     <!-- Page Header End -->
 
-    <div class="container-xxl py-5">
+    <!-- <div class="container-xxl py-5">
         <div class="container">
             <div class="row g-4">
                 <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
@@ -176,7 +176,7 @@
                 </div>
             </div>
         </div>
-    </div>       
+    </div>        -->
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
