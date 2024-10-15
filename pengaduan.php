@@ -87,6 +87,7 @@
                     <a href="lihatpengaduan.php" class="nav-item nav-link">Lihat Pengaduan</a>
                     <a href="carakerja.php" class="nav-item nav-link">Cara Kerja</a>
                     <a href="kontak.php" class="nav-item nav-link">Kontak</a>
+                    <a href="login.php" class="nav-item nav-link">Login</a>
                 </div>
                 <div class="mt-4 mt-lg-0 me-lg-n4 py-3 px-4 bg-primary d-flex align-items-center">
                     <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 45px; height: 45px;">
