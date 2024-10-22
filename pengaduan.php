@@ -1,3 +1,49 @@
+<?php
+
+include 'koneksi.php';
+
+
+if (isset($_POST['simpan'])) {
+    // Ambil data dari form
+    $nama = $_POST['nama'];
+    $nik = $_POST['nik'];
+    $telepon = $_POST['telepon'];
+    $id_kategori = $_POST['id_kategori'];
+    $isi_pengaduan = $_POST['isi_pengaduan'];
+    $status = 'Belum Dikonfirmasi';
+    $tanggal = date('Y-m-d H:i:s');
+
+    // Cek apakah NIK terdaftar di tabel data_masyarakat
+    $cek_nik = mysqli_query($koneksi, "SELECT * FROM data_masyarakat WHERE nik = '$nik'");
+    $jumlah_data = mysqli_num_rows($cek_nik);
+
+    if ($jumlah_data > 0) {
+        // Jika NIK terdaftar, lanjutkan penyimpanan
+        $simpan = mysqli_query($koneksi, "INSERT INTO pengaduan (nama, nik, telepon, id_kategori, isi_pengaduan, status, tanggal) 
+        VALUES ('$nama', '$nik', '$telepon', '$id_kategori', '$isi_pengaduan', '$status', '$tanggal')");
+
+        // Cek apakah penyimpanan berhasil
+        if ($simpan) {
+            echo "<script>
+                    alert('Berhasil mengirim pengaduan, silahkan cek email dalam jangka waktu 1 minggu untuk infonya!');
+                    document.location='pengaduan.php';
+                </script>";
+        } else {
+            echo "<script>
+                    alert('Gagal!');
+                    document.location='pengaduan.php';
+                </script>";
+        }
+    } else {
+        // Jika NIK tidak terdaftar, tampilkan pesan error
+        echo "<script>
+                alert('NIK Anda tidak terdaftar di kecamatan XX!');
+                document.location='pengaduan.php';
+            </script>";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -130,46 +176,57 @@
                 </div>
                 <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="bg-light p-5 h-100 d-flex align-items-center">
-                        <form>
+                        <form method="POST">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="nama" placeholder="Nama Anda">
+                                        <input type="text" class="form-control" name="nama" id="nama"  placeholder="Nama Anda" required>
                                         <label for="name">Nama</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="nik" class="form-control" id="nik" placeholder="NIK Anda">
+                                        <input type="nik" class="form-control" id="nik" name="nik" placeholder="NIK Anda" required>
                                         <label for="nik">NIK</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" id="telepon" placeholder="Telepon">
+                                        <input type="number" class="form-control" id="telepon" name="telepon" placeholder="Telepon" required>
                                         <label for="subject">No. Telepon</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="alamat" placeholder="Alamat">
+                                        <textarea class="form-control" placeholder="Alamat" name="alamat" id="alamat" style="height: 150px" required></textarea>
                                         <label for="alamat">Alamat</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="alamat" placeholder="Alamat">
-                                        <label for="alamat">Alamat</label>
+                                        <select class="form-select" id="id_kategori" name="id_kategori" aria-label="Kategori Pengaduan" required>
+                                            <option selected disabled>Pilih</option>
+                                            <?php
+                                                $no = 1;
+                                                $tampil = mysqli_query($koneksi, "SELECT * FROM kategori");
+                                                while($data = mysqli_fetch_array($tampil)):
+                                            ?>
+                                            <option value="<?= $data['id'] ?>"><?= $data['nama'] ?></option>
+                                            <?php
+                                                endwhile; 
+                                            ?>
+                                        </select>
+                                        <label for="kategori_pengaduan">Kategori Pengaduan</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Isi Pengaduan" id="isi_pengaduan" style="height: 150px"></textarea>
+                                        <textarea class="form-control" placeholder="Isi Pengaduan" name="isi_pengaduan" id="isi_pengaduan" style="height: 150px" required></textarea>
                                         <label for="laporan">Isi Pengaduan</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Kirim Pengaduan</button>
+                                    <button class="btn btn-primary w-100 py-3" type="submit" name="simpan">Kirim Pengaduan</button>
                                 </div>
                             </div>
                         </form>

@@ -30,7 +30,7 @@ if($_SESSION['status'] != 'login'){
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
-	<title>AdminKit Demo - Bootstrap 5 Admin Template</title>
+	<title>Admin</title>
 
 	<link href="../assets/css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -68,7 +68,7 @@ if($_SESSION['status'] != 'login'){
 					</li>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="pages-sign-up.html">
+						<a class="sidebar-link" href="laporan.php">
               <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">Laporan</span>
             </a>
 					</li>
@@ -227,7 +227,7 @@ if($_SESSION['status'] != 'login'){
               </a>
 
 							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                <img src="../assets/img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span class="text-dark">Charles Hall</span>
+                <img src="../assets/img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span class="text-dark"><span class="text-dark"><?= $_SESSION['nama_admin'] ?></span>
               </a>
 							<div class="dropdown-menu dropdown-menu-end">
 	
