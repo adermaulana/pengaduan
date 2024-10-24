@@ -112,72 +112,38 @@
     </div>
     <!-- Page Header End -->
 
-    <!-- <div class="container-xxl py-5">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <h1 class="mb-4">Laporan Pengaduan</h1>
-                    <p class="mb-4"> <span class="text-danger">Pastikan NIK (Nomor Induk Kependudukan) anda terdaftar di kecamatan XX</span> agar bisa melakukan pengaduan pada website pengaduan kecamatan XX. Halaman Cek NIK (Nomor Induk Kependudukan) bisa diakses disini<a href="nik.php"> Cek NIK</a>.</p>
-                    <div class="mt-4 mt-lg-0 me-lg-n4 py-3 px-4 bg-primary d-flex align-items-center">
-                        <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 45px; height: 45px;">
-                            <i class="fa fa-phone-alt text-primary"></i>
-                        </div>
-                        <div class="ms-3">
-                            <p class="mb-1 text-white">Kontak 24/7</p>
-                            <h5 class="m-0 text-secondary">+62 853 6789</h5>
-                        </div>
+    <div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-12 wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="mb-4">Laporan Pengaduan</h1>
+                <p class="mb-4"> 
+                    <span class="text-danger">Pastikan NIK (Nomor Induk Kependudukan) anda terdaftar di kecamatan XX</span> agar bisa melakukan pengaduan pada website pengaduan kecamatan XX. 
+                </p>
+                
+                <h4 class="mb-3">Cara Kerja Website Pengaduan</h4>
+                <ol>
+                    <li>Isi form pengaduan dengan data diri Anda yang valid, termasuk NIK, nama, alamat, dan nomor telepon.</li>
+                    <li>Pastikan NIK Anda sudah terdaftar di database kecamatan untuk dapat mengajukan pengaduan.</li>
+                    <li>Setelah mengisi form, tuliskan pengaduan Anda secara jelas dan lengkap di kolom "Isi Pengaduan".</li>
+                    <li>Tekan tombol "Kirim Pengaduan" untuk mengirim laporan Anda ke pihak kecamatan.</li>
+                    <li>Pihak kecamatan akan memproses laporan Anda, dan Anda bisa memantau status laporan melalui fitur cek status pengaduan.</li>
+                </ol>
+                <p class="mt-3">Jika Anda memiliki pertanyaan lebih lanjut atau membutuhkan bantuan, jangan ragu untuk menghubungi kami melalui nomor kontak di bawah.</p>
+                <div class="mt-4 mt-lg-0 me-lg-n4 py-3 px-4 bg-primary d-flex align-items-center">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 45px; height: 45px;">
+                        <i class="fa fa-phone-alt text-primary"></i>
                     </div>
-                </div>
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="bg-light p-5 h-100 d-flex align-items-center">
-                        <form>
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="nama" placeholder="Nama Anda">
-                                        <label for="name">Nama</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="nik" class="form-control" id="nik" placeholder="NIK Anda">
-                                        <label for="nik">NIK</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="number" class="form-control" id="telepon" placeholder="Telepon">
-                                        <label for="subject">No. Telepon</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="alamat" placeholder="Alamat">
-                                        <label for="alamat">Alamat</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="alamat" placeholder="Alamat">
-                                        <label for="alamat">Alamat</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Isi Pengaduan" id="isi_pengaduan" style="height: 150px"></textarea>
-                                        <label for="laporan">Isi Pengaduan</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Kirim Pengaduan</button>
-                                </div>
-                            </div>
-                        </form>
+                    <div class="ms-3">
+                        <p class="mb-1 text-white">Kontak 24/7</p>
+                        <h5 class="m-0 text-secondary">+62 853 6789</h5>
                     </div>
                 </div>
             </div>
         </div>
-    </div>        -->
+    </div>
+</div>
+
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">

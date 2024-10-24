@@ -1,3 +1,9 @@
+<?php
+
+include 'koneksi.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,13 +39,7 @@
 </head>
 
 <body>
-    <!-- Spinner Start -->
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div>
-    <!-- Spinner End -->
+
 
 
     <!-- Topbar Start -->
@@ -112,72 +112,108 @@
     </div>
     <!-- Page Header End -->
 
-    <!-- <div class="container-xxl py-5">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <h1 class="mb-4">Laporan Pengaduan</h1>
-                    <p class="mb-4"> <span class="text-danger">Pastikan NIK (Nomor Induk Kependudukan) anda terdaftar di kecamatan XX</span> agar bisa melakukan pengaduan pada website pengaduan kecamatan XX. Halaman Cek NIK (Nomor Induk Kependudukan) bisa diakses disini<a href="nik.php"> Cek NIK</a>.</p>
-                    <div class="mt-4 mt-lg-0 me-lg-n4 py-3 px-4 bg-primary d-flex align-items-center">
-                        <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 45px; height: 45px;">
-                            <i class="fa fa-phone-alt text-primary"></i>
-                        </div>
-                        <div class="ms-3">
-                            <p class="mb-1 text-white">Kontak 24/7</p>
-                            <h5 class="m-0 text-secondary">+62 853 6789</h5>
-                        </div>
+    <div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="mb-4">Cek Pengaduan</h1>
+                <p class="mb-4">Masukkan <span class="text-danger">NIK (Nomor Induk Kependudukan)</span> Anda untuk melihat daftar pengaduan yang sudah Anda buat.</p>
+                <div class="mt-4 mt-lg-0 me-lg-n4 py-3 px-4 bg-primary d-flex align-items-center">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 45px; height: 45px;">
+                        <i class="fa fa-phone-alt text-primary"></i>
                     </div>
-                </div>
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="bg-light p-5 h-100 d-flex align-items-center">
-                        <form>
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="nama" placeholder="Nama Anda">
-                                        <label for="name">Nama</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="nik" class="form-control" id="nik" placeholder="NIK Anda">
-                                        <label for="nik">NIK</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="number" class="form-control" id="telepon" placeholder="Telepon">
-                                        <label for="subject">No. Telepon</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="alamat" placeholder="Alamat">
-                                        <label for="alamat">Alamat</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="alamat" placeholder="Alamat">
-                                        <label for="alamat">Alamat</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Isi Pengaduan" id="isi_pengaduan" style="height: 150px"></textarea>
-                                        <label for="laporan">Isi Pengaduan</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Kirim Pengaduan</button>
-                                </div>
-                            </div>
-                        </form>
+                    <div class="ms-3">
+                        <p class="mb-1 text-white">Kontak 24/7</p>
+                        <h5 class="m-0 text-secondary">+62 853 6789</h5>
                     </div>
                 </div>
             </div>
+            <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="bg-light p-5 h-100 d-flex align-items-center">
+                    <!-- Form untuk memasukkan NIK -->
+                    <form action="lihatpengaduan.php" method="POST">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="nik" name="nik" placeholder="NIK Anda" required>
+                                    <label for="nik">Masukkan NIK</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit">Cek Pengaduan</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>        -->
+
+        <!-- Bagian untuk menampilkan hasil daftar pengaduan -->
+        <div class="row g-4 mt-5">
+            <div class="col-12">
+                <h3 class="mb-4">Daftar Pengaduan Anda</h3>
+                <div id="daftarPengaduan">
+                    <!-- Daftar pengaduan akan ditampilkan di sini setelah pencarian berdasarkan NIK -->
+                <?php
+                if (isset($_POST['nik'])) {
+                    $nik = $_POST['nik'];
+
+                    // Cek apakah NIK ada di dalam data masyarakat
+                    $cek_nik = mysqli_query($koneksi, "SELECT * FROM data_masyarakat WHERE nik = '$nik'");
+                    $jumlah_data = mysqli_num_rows($cek_nik);
+
+                    if ($jumlah_data > 0) {
+                        // Query untuk mendapatkan daftar pengaduan berdasarkan NIK
+                        $pengaduan = mysqli_query($koneksi,"
+                                                    SELECT pengaduan.*, kategori.nama as nama_kategori
+                                                    FROM pengaduan 
+                                                    JOIN kategori ON pengaduan.id_kategori = kategori.id
+                                                    WHERE pengaduan.nik = '$nik'
+                                                ");
+                        
+                        if (mysqli_num_rows($pengaduan) > 0) {
+                            echo "<table class='table table-striped table-bordered'>";
+                            echo "<thead class='thead-dark'>";
+                            echo "<tr>";
+                            echo "<th>No</th>";
+                            echo "<th>Nama Pengadu</th>";
+                            echo "<th>NIK</th>";
+                            echo "<th>Kategori</th>";
+                            echo "<th>Isi Pengaduan</th>";
+                            echo "<th>Status</th>";
+                            echo "</tr>";
+                            echo "</thead>";
+                            echo "<tbody>";
+
+                            $no = 1; // Nomor urut
+                            while ($row = mysqli_fetch_assoc($pengaduan)) {
+                                echo "<tr>";
+                                echo "<td>" . $no++ . "</td>";
+                                echo "<td>" . $row['nama'] . "</td>";
+                                echo "<td>" . $row['nik'] . "</td>";
+                                echo "<td>" . $row['nama_kategori'] . "</td>";
+                                echo "<td>" . $row['isi_pengaduan'] . "</td>";
+                                echo "<td>" . $row['status'] . "</td>";
+                                echo "</tr>";
+                            }
+
+                            echo "</tbody>";
+                            echo "</table>";
+                        } else {
+                            echo "<div class='alert alert-warning' role='alert'>Tidak ada pengaduan yang ditemukan untuk NIK tersebut.</div>";
+                        }
+                    } else {
+                        echo "<div class='alert alert-danger' role='alert'>NIK tidak ditemukan dalam database masyarakat.</div>";
+                    }
+                }
+                ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
