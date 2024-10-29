@@ -10,6 +10,7 @@ if (isset($_POST['simpan'])) {
     $telepon = $_POST['telepon'];
     $id_kategori = $_POST['id_kategori'];
     $isi_pengaduan = $_POST['isi_pengaduan'];
+    $alamat = $_POST['alamat'];
     $status = 'Belum Dikonfirmasi';
     $tanggal = date('Y-m-d H:i:s');
 
@@ -19,8 +20,8 @@ if (isset($_POST['simpan'])) {
 
     if ($jumlah_data > 0) {
         // Jika NIK terdaftar, lanjutkan penyimpanan
-        $simpan = mysqli_query($koneksi, "INSERT INTO pengaduan (nama, nik, telepon, id_kategori, isi_pengaduan, status, tanggal) 
-        VALUES ('$nama', '$nik', '$telepon', '$id_kategori', '$isi_pengaduan', '$status', '$tanggal')");
+        $simpan = mysqli_query($koneksi, "INSERT INTO pengaduan (nama, nik, telepon,alamat, id_kategori, isi_pengaduan, status, tanggal) 
+        VALUES ('$nama', '$nik', '$telepon','$alamat', '$id_kategori', '$isi_pengaduan', '$status', '$tanggal')");
 
         // Cek apakah penyimpanan berhasil
         if ($simpan) {
