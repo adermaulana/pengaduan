@@ -13,6 +13,20 @@ if($_SESSION['status'] != 'login'){
 
 }
 
+
+if(isset($_GET['hal']) == "hapus"){
+
+	$hapus = mysqli_query($koneksi, "DELETE FROM pengaduan WHERE id = '$_GET[id]'");
+  
+	if($hapus){
+		echo "<script>
+		alert('Hapus data sukses!');
+		document.location='pengaduan.php';
+		</script>";
+	}
+  }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -274,10 +288,18 @@ if($_SESSION['status'] != 'login'){
 											<td><?= $data['tanggal'] ?></td>
 											<td><?= $data['nama_kategori'] ?></td>
 											<td><?= $data['isi_pengaduan'] ?></td>
+											<?php if ($data['status'] === 'Belum Dikonfirmasi'): ?>
 											<td><span class="badge bg-warning"><?= $data['status'] ?></span></td>
+											<?php else: ?>
+											<td><span class="badge bg-success"><?= $data['status'] ?></span></td>
+											<?php  endif ?>
 											<td>
-                                                <a href="" class="btn btn-success">Konfirmasi</a>
-                                                <a href="" class="btn btn-danger">Hapus</a>
+											<?php if ($data['status'] === 'Belum Dikonfirmasi'): ?>
+												<a href="konfirmasi.php?id=<?= $data['id']?>" onclick="return confirm('Apakah Anda Yakin Ingin Konfirmasi Data?')" class="btn btn-success">Konfirmasi</a>
+                                                <a href="pengaduan.php?hal=hapus&id=<?= $data['id']?>" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')" class="btn btn-danger">Hapus</a>
+											<?php else: ?>
+											<span class="badge bg-success">Selesai</span>
+											<?php  endif ?>
                                             </td>
 										</tr>
                                         <?php
