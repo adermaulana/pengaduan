@@ -7,6 +7,7 @@ if (isset($_POST['simpan'])) {
     // Ambil data dari form
     $nama = $_POST['nama'];
     $nik = $_POST['nik'];
+    $email = $_POST['email'];
     $telepon = $_POST['telepon'];
     $id_kategori = $_POST['id_kategori'];
     $isi_pengaduan = $_POST['isi_pengaduan'];
@@ -20,8 +21,8 @@ if (isset($_POST['simpan'])) {
 
     if ($jumlah_data > 0) {
         // Jika NIK terdaftar, lanjutkan penyimpanan
-        $simpan = mysqli_query($koneksi, "INSERT INTO pengaduan (nama, nik, telepon,alamat, id_kategori, isi_pengaduan, status, tanggal) 
-        VALUES ('$nama', '$nik', '$telepon','$alamat', '$id_kategori', '$isi_pengaduan', '$status', '$tanggal')");
+        $simpan = mysqli_query($koneksi, "INSERT INTO pengaduan (nama, nik,email, telepon,alamat, id_kategori, isi_pengaduan, status, tanggal) 
+        VALUES ('$nama', '$nik','$email', '$telepon','$alamat', '$id_kategori', '$isi_pengaduan', '$status', '$tanggal')");
 
         // Cek apakah penyimpanan berhasil
         if ($simpan) {
@@ -164,7 +165,12 @@ if (isset($_POST['simpan'])) {
             <div class="row g-4">
                 <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <h1 class="mb-4">Laporan Pengaduan</h1>
-                    <p class="mb-4"> <span class="text-danger">Pastikan NIK (Nomor Induk Kependudukan) anda terdaftar di kecamatan XX</span> agar bisa melakukan pengaduan pada website pengaduan kecamatan XX. Halaman Cek NIK (Nomor Induk Kependudukan) bisa diakses disini<a href="nik.php"> Cek NIK</a>.</p>
+                    <p class="mb-4"> 
+                        <span class="text-danger">
+                            Pastikan NIK (Nomor Induk Kependudukan) anda terdaftar di kecamatan XX dan pastikan memasukkan email yang valid 
+                        </span> 
+                        agar bisa melakukan pengaduan pada website pengaduan kecamatan XX
+                    </p>
                     <div class="mt-4 mt-lg-0 me-lg-n4 py-3 px-4 bg-primary d-flex align-items-center">
                         <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-white" style="width: 45px; height: 45px;">
                             <i class="fa fa-phone-alt text-primary"></i>
@@ -187,8 +193,14 @@ if (isset($_POST['simpan'])) {
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="nik" class="form-control" id="nik" name="nik" placeholder="NIK Anda" required>
+                                        <input type="text" class="form-control" id="nik" name="nik" placeholder="NIK Anda" required>
                                         <label for="nik">NIK</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan email valid" required>
+                                        <label for="email">Email</label>
                                     </div>
                                 </div>
                                 <div class="col-12">

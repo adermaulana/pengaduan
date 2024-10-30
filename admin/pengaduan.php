@@ -278,7 +278,7 @@ if(isset($_GET['hal']) == "hapus"){
                                     <?php
                                         $no = 1;
                                         $tampil = mysqli_query($koneksi, "SELECT pengaduan.*, kategori.nama as nama_kategori
-                                                                        FROM pengaduan JOIN kategori ON pengaduan.id_kategori = kategori.id");
+                                                                        FROM pengaduan JOIN kategori ON pengaduan.id_kategori = kategori.id ORDER BY id DESC");
                                         while($data = mysqli_fetch_array($tampil)):
                                     ?>
 										<tr>
@@ -298,7 +298,7 @@ if(isset($_GET['hal']) == "hapus"){
 												<a href="konfirmasi.php?id=<?= $data['id']?>" onclick="return confirm('Apakah Anda Yakin Ingin Konfirmasi Data?')" class="btn btn-success">Konfirmasi</a>
                                                 <a href="pengaduan.php?hal=hapus&id=<?= $data['id']?>" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')" class="btn btn-danger">Hapus</a>
 											<?php else: ?>
-											<span class="badge bg-success">Selesai</span>
+											<span class="badge bg-primary">Selesai</span>
 											<?php  endif ?>
                                             </td>
 										</tr>
