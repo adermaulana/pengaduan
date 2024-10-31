@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2024 at 03:14 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Oct 31, 2024 at 04:50 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -91,6 +91,7 @@ CREATE TABLE `pengaduan` (
   `id` int(11) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `nik` int(50) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `telepon` varchar(255) NOT NULL,
   `alamat` text NOT NULL,
   `id_kategori` int(11) NOT NULL,
@@ -103,8 +104,12 @@ CREATE TABLE `pengaduan` (
 -- Dumping data for table `pengaduan`
 --
 
-INSERT INTO `pengaduan` (`id`, `nama`, `nik`, `telepon`, `alamat`, `id_kategori`, `isi_pengaduan`, `status`, `tanggal`) VALUES
-(1, 'Tasya', 12345, '0854', '', 2, 'Tes', 'Belum Dikonfirmasi', '2024-10-22');
+INSERT INTO `pengaduan` (`id`, `nama`, `nik`, `email`, `telepon`, `alamat`, `id_kategori`, `isi_pengaduan`, `status`, `tanggal`) VALUES
+(5, 'dasds', 12345, '', '233', '', 3, 'dawwd', 'Dikonfirmasi', '2024-10-29'),
+(6, '233', 12345, '', '323223', '', 2, 'awd', 'Dikonfirmasi', '2024-10-29'),
+(7, '23', 12345, '', '223', 'dsads', 2, 'dwadw', 'Belum Dikonfirmasi', '2024-10-29'),
+(8, 'dasd', 12345, 'ade@gmail.com', '23', '32', 2, '23', 'Belum Dikonfirmasi', '2024-10-30'),
+(9, 'wahyu', 12345, 'adermaulana15@gmail.com', '12321', 'tes', 2, '123', 'Dikonfirmasi', '2024-10-30');
 
 --
 -- Indexes for dumped tables
@@ -161,7 +166,7 @@ ALTER TABLE `kategori`
 -- AUTO_INCREMENT for table `pengaduan`
 --
 ALTER TABLE `pengaduan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
