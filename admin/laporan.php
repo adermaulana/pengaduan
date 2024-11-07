@@ -270,13 +270,21 @@ if(isset($_GET['hal']) == "hapus"){
                                             <label for="tanggal_akhir" class="form-label">Tanggal Akhir</label>
                                             <input type="date" class="form-control" id="tanggal_akhir" name="tanggal_akhir" value="<?= isset($_GET['tanggal_akhir']) ? $_GET['tanggal_akhir'] : '' ?>">
                                         </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label">&nbsp;</label>
-                                            <div>
-                                                <button type="submit" class="btn btn-primary">Filter</button>
-                                                <a href="<?= $_SERVER['PHP_SELF'] ?>" class="btn btn-secondary">Reset</a>
-                                            </div>
-                                        </div>
+										<div>
+											<button type="submit" class="btn btn-primary">Filter</button>
+											<a href="<?= $_SERVER['PHP_SELF'] ?>" class="btn btn-secondary">Reset</a>
+											<?php
+											// Membuat URL untuk cetak dengan parameter tanggal jika ada
+											$cetakUrl = "cetak_laporan.php";
+											if (isset($_GET['tanggal_mulai']) && isset($_GET['tanggal_akhir']) && 
+												$_GET['tanggal_mulai'] != '' && $_GET['tanggal_akhir'] != '') {
+												$cetakUrl .= "?tanggal_mulai=" . $_GET['tanggal_mulai'] . "&tanggal_akhir=" . $_GET['tanggal_akhir'];
+											}
+											?>
+											<a href="<?= $cetakUrl ?>" target="_blank" class="btn btn-success">
+												<i class="fas fa-print"></i> Cetak Laporan
+											</a>
+										</div>
                                     </form>
                                 </div>
                             </div>
