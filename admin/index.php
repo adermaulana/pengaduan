@@ -41,7 +41,7 @@ if($_SESSION['status'] != 'login'){
 		<nav id="sidebar" class="sidebar js-sidebar">
 			<div class="sidebar-content js-simplebar">
 				<a class="sidebar-brand" href="index.html">
-          <span class="align-middle">AdminKit</span>
+          <span class="align-middle">Admin</span>
         </a>
 
 				<ul class="sidebar-nav">
@@ -250,24 +250,44 @@ if($_SESSION['status'] != 'login'){
 
 									<h5 class="card-title mb-0">Daftar Laporan Pengaduan Hari Ini</h5>
 								</div>
-								<table class="table table-hover my-0">
+                                <table class="table table-hover my-0">
 									<thead>
 										<tr>
 											<th>No</th>
-											<th>Nama</th>
-											<th class="d-none d-xl-table-cell">NIK</th>
-											<th class="d-none d-xl-table-cell">No Telepon</th>
+											<th>Nama Warga</th>
+											<th>NIK</th>
+											<th>Tanggal Pengaduan</th>
+											<th>Kategori Pengaduan</th>
+											<th>Isi Pengaduan</th>
 											<th>Status</th>
 										</tr>
 									</thead>
 									<tbody>
+                                    <?php
+                                        $no = 1;
+                                        $tampil = mysqli_query($koneksi, "SELECT pengaduan.*, kategori.nama as nama_kategori
+                                                                        FROM pengaduan JOIN kategori ON pengaduan.id_kategori = kategori.id
+																		WHERE DATE(pengaduan.tanggal) = CURDATE()
+																		AND status = 'Belum Dikonfirmasi'
+																		ORDER BY id DESC");
+                                        while($data = mysqli_fetch_array($tampil)):
+                                    ?>
 										<tr>
-											<td>1</td>
-											<td>Umay</td>
-											<td class="d-none d-xl-table-cell">122344</td>
-											<td class="d-none d-xl-table-cell">0854</td>
-											<td><span class="badge bg-warning">Menunggu</span></td>
+											<td><?= $no ?></td>
+											<td><?= $data['nama'] ?></td>
+											<td><?= $data['nik'] ?></td>
+											<td><?= $data['tanggal'] ?></td>
+											<td><?= $data['nama_kategori'] ?></td>
+											<td><?= $data['isi_pengaduan'] ?></td>
+											<?php if ($data['status'] === 'Belum Dikonfirmasi'): ?>
+											<td><span class="badge bg-warning"><?= $data['status'] ?></span></td>
+											<?php else: ?>
+											<td><span class="badge bg-success"><?= $data['status'] ?></span></td>
+											<?php  endif ?>
 										</tr>
+                                        <?php
+                                            endwhile; 
+                                        ?>
 									</tbody>
 								</table>
 							</div>
@@ -327,76 +347,90 @@ if($_SESSION['status'] != 'login'){
 
 	<script src="../assets/js/app.js"></script>
 
+	<?php
+
+	$query = "SELECT 
+				MONTH(tanggal) as bulan,
+				COUNT(*) as jumlah
+			FROM pengaduan 
+			WHERE YEAR(tanggal) = YEAR(CURRENT_DATE())
+			GROUP BY MONTH(tanggal)
+			ORDER BY MONTH(tanggal)";
+
+	$result = mysqli_query($koneksi, $query);
+
+	// Inisialisasi array untuk 12 bulan
+	$monthlyData = array_fill(1, 12, 0);
+
+	// Mengisi data dari database
+	while($row = mysqli_fetch_assoc($result)) {
+		$monthlyData[$row['bulan']] = $row['jumlah'];
+	}
+
+	// Konversi ke JSON untuk JavaScript
+	$chartData = json_encode(array_values($monthlyData));
+
+
+	?>
+
 	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-			var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
-			var gradient = ctx.createLinearGradient(0, 0, 0, 225);
-			gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
-			gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
-			// Line chart
-			new Chart(document.getElementById("chartjs-dashboard-line"), {
-				type: "line",
-				data: {
-					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-					datasets: [{
-						label: "Sales ($)",
-						fill: true,
-						backgroundColor: gradient,
-						borderColor: window.theme.primary,
-						data: [
-							2115,
-							1562,
-							1584,
-							1892,
-							1587,
-							1923,
-							2566,
-							2448,
-							2805,
-							3438,
-							2917,
-							3327
-						]
-					}]
-				},
-				options: {
-					maintainAspectRatio: false,
-					legend: {
-						display: false
-					},
-					tooltips: {
-						intersect: false
-					},
-					hover: {
-						intersect: true
-					},
-					plugins: {
-						filler: {
-							propagate: false
-						}
-					},
-					scales: {
-						xAxes: [{
-							reverse: true,
-							gridLines: {
-								color: "rgba(0,0,0,0.0)"
-							}
-						}],
-						yAxes: [{
-							ticks: {
-								stepSize: 1000
-							},
-							display: true,
-							borderDash: [3, 3],
-							gridLines: {
-								color: "rgba(0,0,0,0.0)"
-							}
-						}]
-					}
-				}
-			});
-		});
-	</script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
+        var gradient = ctx.createLinearGradient(0, 0, 0, 225);
+        gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
+        gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
+
+        // Line chart
+        new Chart(document.getElementById("chartjs-dashboard-line"), {
+            type: "line",
+            data: {
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                datasets: [{
+                    label: "Jumlah Pengaduan",
+                    fill: true,
+                    backgroundColor: gradient,
+                    borderColor: "#3b7ddd",
+                    data: <?php echo $chartData; ?>
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    intersect: false
+                },
+                hover: {
+                    intersect: true
+                },
+                plugins: {
+                    filler: {
+                        propagate: false
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        reverse: true,
+                        gridLines: {
+                            color: "rgba(0,0,0,0.0)"
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            stepSize: 1000
+                        },
+                        display: true,
+                        borderDash: [3, 3],
+                        gridLines: {
+                            color: "rgba(0,0,0,0.0)"
+                        }
+                    }]
+                }
+            }
+        });
+    });
+    </script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			// Pie chart

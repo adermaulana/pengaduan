@@ -13,18 +13,36 @@ if($_SESSION['status'] != 'login'){
 
 }
 
-if(isset($_GET['hal']) == "hapus"){
 
-    $hapus = mysqli_query($koneksi, "DELETE FROM kategori WHERE id = '$_GET[id]'");
-  
-    if($hapus){
-        echo "<script>
-        alert('Hapus data sukses!');
-        document.location='kategori.php';
-        </script>";
+if(isset($_GET['hal'])){
+    if($_GET['hal'] == "edit"){
+        $tampil = mysqli_query($koneksi, "SELECT * FROM kategori WHERE id = '$_GET[id]'");
+        $data = mysqli_fetch_array($tampil);
+        if($data){
+            $id = $data['id'];
+            $kategori = $data['nama'];
+        }
     }
-  }
+}
 
+if(isset($_POST['simpan'])){
+
+    $update = mysqli_query($koneksi, "UPDATE kategori SET 
+        nama = '$_POST[nama]'
+        WHERE id = '$_GET[id]'");
+
+    if ($update) {
+        echo "<script>
+                alert('Update data sukses!');
+                document.location='kategori.php';
+              </script>";
+    } else {
+        echo "<script>
+                alert('Update data gagal!');
+                document.location='kategori.php';
+              </script>";
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -254,44 +272,22 @@ if(isset($_GET['hal']) == "hapus"){
 			<main class="content">
 				<div class="container-fluid p-0">
 					<div class="mb-3">
-						<h1 class="h3 d-inline align-middle">Kategori</h1>
+						<h1 class="h3 d-inline align-middle">Edit Kategori</h1>
 					</div>
-					<div class="row">
-                        <div class="col-12 col-lg-12">
-                            <a href="tambahkategori.php" class="btn btn-success">Tambah Kategori</a>
-                            <div class="card">
-								<div class="card-body">
-                                <table class="table table-hover my-0">
-									<thead>
-										<tr>
-											<th>No</th>
-											<th>Nama Kategori</th>
-											<th>Aksi</th>
-										</tr>
-									</thead>
-									<tbody>
-                                    <?php
-                                        $no = 1;
-                                        $tampil = mysqli_query($koneksi, "SELECT * FROM kategori");
-                                        while($data = mysqli_fetch_array($tampil)):
-                                    ?>
-										<tr>
-											<td><?= $no ?></td>
-											<td><?= $data['nama'] ?></td>
-											<td>
-                                                <a href="editkategori.php?hal=edit&id=<?= $data['id'] ?>" class="btn btn-warning">Edit</a>
-                                                <a href="kategori.php?hal=hapus&id=<?= $data['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')">Hapus</a>
-                                            </td>
-										</tr>
-                                        <?php
-                                            endwhile; 
-                                        ?>
-									</tbody>
-								</table>
-								</div>
-							</div>
+                    <form method="post">
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input type="text" class="form-control" name="nama" value="<?= $kategori ?>" placeholder="Kategori" required>
+                                        <button class="btn btn-success mt-3" type="submit" name="simpan">Edit</button>
+    
+                                    </div>
+    
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </form>
 				</div>
 			</main>
 
