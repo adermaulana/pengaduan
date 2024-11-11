@@ -268,7 +268,6 @@ if($_SESSION['status'] != 'login'){
                                         $tampil = mysqli_query($koneksi, "SELECT pengaduan.*, kategori.nama as nama_kategori
                                                                         FROM pengaduan JOIN kategori ON pengaduan.id_kategori = kategori.id
 																		WHERE DATE(pengaduan.tanggal) = CURDATE()
-																		AND status = 'Belum Dikonfirmasi'
 																		ORDER BY id DESC");
                                         while($data = mysqli_fetch_array($tampil)):
                                     ?>
