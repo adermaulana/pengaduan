@@ -245,7 +245,7 @@ if (isset($_POST['simpan'])) {
                                 <div class="col-12">
                                     <div class="form-floating">
                                         <textarea class="form-control" placeholder="Alamat" name="alamat" id="alamat" style="height: 150px" required></textarea>
-                                        <label for="alamat">Alamat</label>
+                                        <label for="alamat">Alamat Rumah</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -286,6 +286,19 @@ if (isset($_POST['simpan'])) {
 
                                 <div id="map"></div>
                                 </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Alamat" name="alamat" id="alamat" style="height: 150px" required></textarea>
+                                        <label for="alamat">Alamat Lokasi</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <input type="file" class="form-control" id="foto_pengaduan" name="foto_pengaduan" placeholder="Foto Pengaduan" required>
+                                        <label for="subject">Foto Pengaduan</label>
+                                    </div>
+                                </div>
+
                                 <div class="col-12">
                                     <button class="btn btn-primary w-100 py-3" type="submit" name="simpan">Kirim Pengaduan</button>
                                 </div>
