@@ -43,11 +43,37 @@ if(isset($_GET['hal']) == "hapus"){
 	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
-
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<title>Admin</title>
 
 	<link href="../assets/css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+	<style>
+	#modalMap {
+		width: 100%;
+		border-radius: 8px;
+		border: 2px solid #ddd;
+	}
+	#locationInfo {
+		padding: 10px;
+		background: #f8f9fa;
+		border-radius: 4px;
+		margin-bottom: 15px;
+	}
+
+	#fotoInfo {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    margin-bottom: 15px;
+	}
+
+	#modalFoto {
+		border-radius: 8px;
+		box-shadow: 0 0 10px rgba(0,0,0,0.1);
+	}
+	</style>
 </head>
 
 <body>
@@ -271,6 +297,8 @@ if(isset($_GET['hal']) == "hapus"){
 											<th>Kategori Pengaduan</th>
 											<th>Isi Pengaduan</th>
 											<th>Status</th>
+											<th>Foto</th>
+											<th>Map</th>
 											<th>Aksi</th>
 										</tr>
 									</thead>
@@ -294,6 +322,18 @@ if(isset($_GET['hal']) == "hapus"){
 											<td><span class="badge bg-success"><?= $data['status'] ?></span></td>
 											<?php  endif ?>
 											<td>
+												<button type="button" class="btn btn-info btn-sm" 
+														onclick="showFoto('<?= $data['gambar'] ?>', '<?= $data['nama'] ?>', '<?= $data['alamat_lokasi'] ?>', '<?= $data['isi_pengaduan'] ?>')">
+													<i class="fas fa-image"></i> Lihat Foto
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-primary btn-sm" 
+														onclick="showMap(<?= $data['latitude'] ?>, <?= $data['longitude'] ?>, '<?= $data['nama'] ?>', '<?= $data['alamat_lokasi'] ?>')">
+													<i class="fas fa-map-marker-alt"></i> Lihat Maps
+												</button>
+											</td>
+											<td>
 											<?php if ($data['status'] === 'Belum Dikonfirmasi'): ?>
 												<a href="konfirmasi.php?id=<?= $data['id']?>" onclick="return confirm('Apakah Anda Yakin Ingin Konfirmasi Data?')" class="btn btn-success">Konfirmasi</a>
                                                 <a href="pengaduan.php?hal=hapus&id=<?= $data['id']?>" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')" class="btn btn-danger">Hapus</a>
@@ -307,6 +347,39 @@ if(isset($_GET['hal']) == "hapus"){
                                         ?>
 									</tbody>
 								</table>
+
+								<div class="modal fade" id="mapsModal" tabindex="-1" aria-labelledby="mapsModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="mapsModalLabel">Lokasi Pengaduan</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<div id="locationInfo" class="mb-3"></div>
+												<div id="modalMap" style="height: 400px;"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="modal fade" id="fotoModal" tabindex="-1" aria-labelledby="fotoModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="fotoModalLabel">Foto Pengaduan</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<div id="fotoInfo" class="mb-3"></div>
+												<div class="text-center">
+													<img id="modalFoto" class="img-fluid" alt="Foto Pengaduan" style="max-height: 500px;">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
 								</div>
 							</div>
                         </div>
@@ -567,6 +640,81 @@ if(isset($_GET['hal']) == "hapus"){
 			});
 		});
 	</script>
+
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+	
+	<script>
+let modalMap;
+let modalMarker;
+
+function showMap(lat, lng, nama, alamat) {
+    // Tampilkan modal
+    const mapsModal = new bootstrap.Modal(document.getElementById('mapsModal'));
+    mapsModal.show();
+    
+    // Update info lokasi
+    document.getElementById('locationInfo').innerHTML = `
+        <strong>Pelapor:</strong> ${nama}<br>
+        <strong>Alamat:</strong> ${alamat}<br>
+        <strong>Koordinat:</strong> ${lat}, ${lng}
+    `;
+
+    // Inisialisasi peta jika belum ada
+    if (!modalMap) {
+        modalMap = L.map('modalMap');
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(modalMap);
+    }
+
+    // Set view ke lokasi yang dipilih
+    modalMap.setView([lat, lng], 15);
+
+    // Hapus marker lama jika ada
+    if (modalMarker) {
+        modalMap.removeLayer(modalMarker);
+    }
+
+    // Tambah marker baru
+    modalMarker = L.marker([lat, lng]).addTo(modalMap)
+        .bindPopup(`<b>${nama}</b><br>${alamat}`).openPopup();
+
+    // Perbaiki tampilan peta setelah modal muncul
+    setTimeout(() => {
+        modalMap.invalidateSize();
+    }, 250);
+}
+
+function showFoto(gambar, nama, alamat, isiPengaduan) {
+    // Tampilkan modal
+    const fotoModal = new bootstrap.Modal(document.getElementById('fotoModal'));
+    fotoModal.show();
+    
+    // Update info pengaduan
+    document.getElementById('fotoInfo').innerHTML = `
+        <strong>Pelapor:</strong> ${nama}<br>
+        <strong>Alamat:</strong> ${alamat}<br>
+        <strong>Isi Pengaduan:</strong> ${isiPengaduan}
+    `;
+
+    // Update source gambar
+    document.getElementById('modalFoto').src = '../uploads/' + gambar;
+}
+
+// Reset modal saat ditutup
+document.getElementById('fotoModal').addEventListener('hidden.bs.modal', function () {
+    document.getElementById('modalFoto').src = '';
+});
+
+// Reset modal saat ditutup
+document.getElementById('mapsModal').addEventListener('hidden.bs.modal', function () {
+    if (modalMap) {
+        modalMap.remove();
+        modalMap = null;
+    }
+});
+
+</script>
 
 </body>
 

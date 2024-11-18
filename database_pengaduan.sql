@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 31, 2024 at 04:50 AM
+-- Generation Time: Nov 18, 2024 at 09:57 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -77,8 +77,7 @@ CREATE TABLE `kategori` (
 --
 
 INSERT INTO `kategori` (`id`, `nama`) VALUES
-(2, 'Kategori'),
-(3, 'Uang'),
+(3, 'Uangnyoi'),
 (4, 'Infrastruktur');
 
 -- --------------------------------------------------------
@@ -97,19 +96,12 @@ CREATE TABLE `pengaduan` (
   `id_kategori` int(11) NOT NULL,
   `isi_pengaduan` text NOT NULL,
   `status` enum('Belum Dikonfirmasi','Dikonfirmasi') NOT NULL,
-  `tanggal` date NOT NULL
+  `tanggal` date NOT NULL,
+  `latitude` decimal(10,8) NOT NULL,
+  `longitude` decimal(11,8) NOT NULL,
+  `alamat_lokasi` text NOT NULL,
+  `gambar` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `pengaduan`
---
-
-INSERT INTO `pengaduan` (`id`, `nama`, `nik`, `email`, `telepon`, `alamat`, `id_kategori`, `isi_pengaduan`, `status`, `tanggal`) VALUES
-(5, 'dasds', 12345, '', '233', '', 3, 'dawwd', 'Dikonfirmasi', '2024-10-29'),
-(6, '233', 12345, '', '323223', '', 2, 'awd', 'Dikonfirmasi', '2024-10-29'),
-(7, '23', 12345, '', '223', 'dsads', 2, 'dwadw', 'Belum Dikonfirmasi', '2024-10-29'),
-(8, 'dasd', 12345, 'ade@gmail.com', '23', '32', 2, '23', 'Belum Dikonfirmasi', '2024-10-30'),
-(9, 'wahyu', 12345, 'adermaulana15@gmail.com', '12321', 'tes', 2, '123', 'Dikonfirmasi', '2024-10-30');
 
 --
 -- Indexes for dumped tables
@@ -166,7 +158,7 @@ ALTER TABLE `kategori`
 -- AUTO_INCREMENT for table `pengaduan`
 --
 ALTER TABLE `pengaduan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables

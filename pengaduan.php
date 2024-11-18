@@ -12,6 +12,7 @@ if (isset($_POST['simpan'])) {
     $id_kategori = $_POST['id_kategori'];
     $isi_pengaduan = $_POST['isi_pengaduan'];
     $alamat = $_POST['alamat'];
+    $alamat_lokasi = $_POST['alamat_lokasi']; // Tambahan untuk alamat lokasi
     $status = 'Belum Dikonfirmasi';
     $tanggal = date('Y-m-d H:i:s');
     
@@ -19,26 +20,40 @@ if (isset($_POST['simpan'])) {
     $latitude = $_POST['latitude'];
     $longitude = $_POST['longitude'];
 
+    // Proses upload foto
+    $foto = $_FILES['foto_pengaduan']['name'];
+    $tmp = $_FILES['foto_pengaduan']['tmp_name'];
+    $fotobaru = date('dmYHis').$foto;
+    $path = "uploads/".$fotobaru;
+
     // Cek apakah NIK terdaftar di tabel data_masyarakat
     $cek_nik = mysqli_query($koneksi, "SELECT * FROM data_masyarakat WHERE nik = '$nik'");
     $jumlah_data = mysqli_num_rows($cek_nik);
 
     if ($jumlah_data > 0) {
-        // Jika NIK terdaftar, lanjutkan penyimpanan
-        $simpan = mysqli_query($koneksi, "INSERT INTO pengaduan 
-            (nama, nik, email, telepon, alamat, id_kategori, isi_pengaduan, status, tanggal, latitude, longitude) 
-            VALUES 
-            ('$nama', '$nik', '$email', '$telepon', '$alamat', '$id_kategori', '$isi_pengaduan', '$status', '$tanggal', '$latitude', '$longitude')");
+        // Pindahkan file foto ke folder
+        if(move_uploaded_file($tmp, $path)) { 
+            // Jika NIK terdaftar, lanjutkan penyimpanan
+            $simpan = mysqli_query($koneksi, "INSERT INTO pengaduan 
+                (nama, nik, email, telepon, alamat, alamat_lokasi, id_kategori, isi_pengaduan, status, tanggal, latitude, longitude, gambar) 
+                VALUES 
+                ('$nama', '$nik', '$email', '$telepon', '$alamat', '$alamat_lokasi', '$id_kategori', '$isi_pengaduan', '$status', '$tanggal', '$latitude', '$longitude', '$fotobaru')");
 
-        // Cek apakah penyimpanan berhasil
-        if ($simpan) {
-            echo "<script>
-                    alert('Berhasil mengirim pengaduan, silahkan cek email dalam jangka waktu 1 minggu untuk infonya!');
-                    document.location='pengaduan.php';
-                </script>";
+            // Cek apakah penyimpanan berhasil
+            if ($simpan) {
+                echo "<script>
+                        alert('Berhasil mengirim pengaduan, silahkan cek email dalam jangka waktu 1 minggu untuk infonya!');
+                        document.location='pengaduan.php';
+                    </script>";
+            } else {
+                echo "<script>
+                        alert('Gagal!');
+                        document.location='pengaduan.php';
+                    </script>";
+            }
         } else {
             echo "<script>
-                    alert('Gagal!');
+                    alert('Gagal upload foto!');
                     document.location='pengaduan.php';
                 </script>";
         }
@@ -214,7 +229,7 @@ if (isset($_POST['simpan'])) {
                 </div>
                 <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="bg-light p-5 h-100 d-flex align-items-center">
-                        <form method="POST">
+                        <form method="POST" enctype="multipart/form-data">
                             <input type="hidden" id="latitude" name="latitude">
                             <input type="hidden" id="longitude" name="longitude">
                             <div class="row g-3">
@@ -288,7 +303,7 @@ if (isset($_POST['simpan'])) {
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Alamat" name="alamat" id="alamat" style="height: 150px" required></textarea>
+                                        <textarea class="form-control" placeholder="Alamat" name="alamat_lokasi" id="alamat_lokasi" style="height: 150px" required></textarea>
                                         <label for="alamat">Alamat Lokasi</label>
                                     </div>
                                 </div>
